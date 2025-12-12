@@ -43,7 +43,7 @@ Coding with Large Language Models (Gemini, ChatGPT, Claude) is powerful, but the
 | **Client-Side Privacy** | Runs 100% in your browser. No data is sent to any external server. |
 | **Zero-Friction** | Uses JavaScript **Bookmarklets** for a 2-click workflow (Freeze & Inject). |
 | **Smart Injection** | Merges your **Personal Profile** (Goals, Learning Style) with **Project Context**. |
-| **Universal** | Works with Gemini, ChatGPT, Claude, and DeepSeek via prompt injection. |
+| **Specific** | Works with Gemini via prompt injection. |
 | **Customizable** | Define your own "System Persona" (e.g., *Strict Mentor* vs *Supportive Guide*). |
 
 ---
