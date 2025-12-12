@@ -79,6 +79,7 @@ You have two ways to restore your context in a new chat:
 
 #### Method A: The "Direct" Way (Fastest)
 *Best for quick continuation without editing.*
+---
 
 1.  Open a **New Chat** window.
 2.  Click the **🟢 Inject** bookmarklet in your browser bar.
@@ -88,6 +89,7 @@ You have two ways to restore your context in a new chat:
 
 ####  Method B: The "Manager" Way (via Web App)
 *Best if you want to review or edit the context before injecting.*
+---
 
 1.  Go back to the **ContextFreeze Web App**.
 2.  Paste the JSON into the **"Yönetici" (Manager)** tab or input area.
