@@ -1,0 +1,5 @@
+{
+  "name": "ContextFreeze",
+  "description": "Yapay zeka sohbetleri için bağlam (context) dondurma ve yükleme aracı. Bookmarklet üretici ve JSON düzenleyici.",
+  "requestFramePermissions": []
+}
