@@ -13,26 +13,16 @@ Keep your chat context, technical stack, and personal persona alive across sessi
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
 [![License](https://img.shields.io/badge/license-MIT-yellow)](./LICENSE)
 
-[🔴 Live Demo](https://CONTEXT-FREEZE-LINKINI-BURAYA-YAPISTIR) · [🐞 Report Bug](https://github.com/KULLANICI_ADIN/context-freeze/issues) · [✨ Request Feature](https://github.com/KULLANICI_ADIN/context-freeze/issues)
+[🔴 Live Demo](https://contextfreeze.netlify.app/) · [ Report Bug](https://github.com/omtekyav/context-freeze/issues) · [ Request Feature](https://github.com/omtekyav/context-freeze/issues)
+<img width="1262" height="847" alt="image" src="https://github.com/user-attachments/assets/6a4e0186-3467-42f8-aacb-810d0fdc787e" />
 
-<img width="1128" height="807" alt="ContextFreeze Interface" src="https://github.com/user-attachments/assets/9f6e75e2-e709-41fc-87c8-a8a639cba6c0" />
+
+
 
 </div>
 
----
 
-## 📖 Table of Contents
-- [The Problem](#-the-problem)
-- [The Solution](#-the-solution)
-- [Key Features](#-key-features)
-- [Step-by-Step Guide](#-step-by-step-usage-guide)
-- [Getting Started](#-getting-started)
-- [Configuration](#-configuration)
-- [Tech Stack](#-tech-stack)
-
----
-
-## 🚀 The Problem
+##  The Problem
 
 Coding with Large Language Models (Gemini, ChatGPT, Claude) is powerful, but they suffer from **"Context Drift"**:
 
@@ -42,11 +32,11 @@ Coding with Large Language Models (Gemini, ChatGPT, Claude) is powerful, but the
 
 > *"I am a Full Stack Dev using FastAPI and Docker, please act as a Senior Mentor..."* — **Don't type this every time.**
 
-## 💡 The Solution
+##  The Solution
 
 **ContextFreeze** is a browser-based tool that acts as a **"Save/Load System"** for your AI conversations. It serializes your chat state into a lightweight JSON object and hydrates new sessions with your custom profile.
 
-## ✨ Key Features
+##  Key Features
 
 | Feature | Description |
 | :--- | :--- |
@@ -58,7 +48,9 @@ Coding with Large Language Models (Gemini, ChatGPT, Claude) is powerful, but the
 
 ---
 
-## 🕹️ Step-by-Step Usage Guide
+##  Step-by-Step Usage Guide
+<img width="1220" height="852" alt="image" src="https://github.com/user-attachments/assets/e511d75f-8aa3-4f9b-b812-4fc73ec39388" />
+
 
 This guide explains the complete workflow: from setting up your personal profile to transferring your chat context.
 
@@ -85,7 +77,7 @@ When your current LLM chat (Gemini/ChatGPT) becomes slow, hallucinated, or hits 
 
 You have two ways to restore your context in a new chat:
 
-#### 🅰️ Method A: The "Direct" Way (Fastest)
+#### Method A: The "Direct" Way (Fastest)
 *Best for quick continuation without editing.*
 
 1.  Open a **New Chat** window.
@@ -94,7 +86,7 @@ You have two ways to restore your context in a new chat:
 4.  **Press Enter:** The system instantly combines your **Saved Profile** (from Phase 1) with the **Project JSON** and sends the prompt.
 5.  *Result:* The AI is now fully synced with your persona and project state.
 
-#### 🅱️ Method B: The "Manager" Way (via Web App)
+####  Method B: The "Manager" Way (via Web App)
 *Best if you want to review or edit the context before injecting.*
 
 1.  Go back to the **ContextFreeze Web App**.
@@ -105,11 +97,11 @@ You have two ways to restore your context in a new chat:
 
 ---
 
-## ⚡ Getting Started
+##  Getting Started
 
 ### Option 1: Live Demo (Recommended)
 No installation required.
-1. Go to the **[Live Demo](https://CONTEXT-FREEZE-LINKINI-BURAYA-YAPISTIR)**.
+1. Go to the **[Live Demo](https://contextfreeze.netlify.app/)**.
 2. Configure your profile settings.
 3. Drag the buttons to your bookmarks bar.
 
@@ -144,7 +136,7 @@ This project is built with modern web technologies to ensure speed and type safe
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are what make the open-source community such an amazing place to learn. Any contributions you make are **greatly appreciated**.
 
@@ -162,6 +154,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <div align="center">
 
-Made with ❤️ by [KULLANICI_ADIN](https://github.com/KULLANICI_ADIN)
 
 </div>
