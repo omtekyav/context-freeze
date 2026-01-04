@@ -15,6 +15,8 @@ export enum Tab {
   CONVERTER = 'converter'
 }
 
+export const API_KEY_STORAGE_KEY = 'cf_gemini_api_key';
+
 export const FREEZE_PROMPT_TEMPLATE = `SİSTEM TALİMATI: MEVCUT OTURUMU SONLANDIRIYORUZ. Bu projenin ve sohbetin tüm teknik bağlamını yeni bir oturuma taşımam gerekiyor. Bana şu formatta tek bir JSON bloğu ver (başka konuşma metni istemiyorum, sadece JSON):
 {
   "summary": "Projenin tek cümlelik özeti",

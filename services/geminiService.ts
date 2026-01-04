@@ -1,24 +1,21 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-const apiKey = process.env.API_KEY || '';
-
-// Initialize only if key exists to avoid immediate errors, handle gracefully in calls
-const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
-
-export const convertTextToContextJson = async (text: string): Promise<string> => {
-  if (!ai) {
-    throw new Error("API Anahtarı bulunamadı. Lütfen ortam değişkenlerini kontrol edin.");
+export const convertTextToContextJson = async (text: string, apiKey: string): Promise<string> => {
+  if (!apiKey) {
+    throw new Error("API_KEY_MISSING");
   }
+
+  const ai = new GoogleGenAI({ apiKey });
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: `Aşağıdaki dağınık notları veya proje özetini, bir yazılım projesi bağlam aktarımı için standart bir JSON formatına dönüştür.
       
       Girdi Metni:
       ${text}`,
       config: {
-        systemInstruction: "Sen deneyimli bir teknik proje yöneticisisin. Verilen metni analiz et ve katı bir JSON şemasına dönüştür.",
+        systemInstruction: "Sen deneyimli bir teknik proje yöneticisisin. Verilen metni analiz et ve katı bir JSON şemasına dönüştür. Sadece JSON döndür.",
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,

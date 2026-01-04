@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from 'react';
-import { Bookmark, LayoutDashboard, BrainCircuit, Box, Github, UserCog, ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Bookmark, LayoutDashboard, BrainCircuit, Box, Github, UserCog, ChevronDown, ChevronUp, Settings, X, ExternalLink, Key } from 'lucide-react';
 import BookmarkletCard from './components/BookmarkletCard';
 import ContextManager from './components/ContextManager';
 import AIConverter from './components/AIConverter';
-import { Tab, DEFAULT_USER_PROFILE } from './types';
+import { Tab, DEFAULT_USER_PROFILE, API_KEY_STORAGE_KEY } from './types';
 
 // FREEZE_CODE (Static)
 const FREEZE_CODE = `javascript:(function(){
@@ -25,6 +25,12 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>(Tab.BOOKMARKLETS);
   const [convertedJson, setConvertedJson] = useState<string | null>(null);
   
+  // API Key Management
+  const [apiKey, setApiKey] = useState<string>(() => {
+    return localStorage.getItem(API_KEY_STORAGE_KEY) || process.env.API_KEY || '';
+  });
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
   // Profile Configuration State
   const [includeProfile, setIncludeProfile] = useState(true);
   const [userProfile, setUserProfile] = useState(DEFAULT_USER_PROFILE);
@@ -32,17 +38,19 @@ const App: React.FC = () => {
 
   const handleConversionComplete = (json: string) => {
     setConvertedJson(json);
-    setActiveTab(Tab.MANAGER); // Switch to manager to view result
+    setActiveTab(Tab.MANAGER);
+  };
+
+  const saveApiKey = (key: string) => {
+    setApiKey(key);
+    localStorage.setItem(API_KEY_STORAGE_KEY, key);
   };
 
   // Dynamically generate THAW_CODE based on user settings
   const dynamicThawCode = useMemo(() => {
-    // 1. Prepare profile text (Escape backticks and newlines for JS string)
     const safeProfile = userProfile.replace(/`/g, '\\`').replace(/\${/g, '\\${').replace(/\n/g, '\\n');
     
-    // 2. Choose the prompt template based on toggle
     if (includeProfile) {
-      // V2 Logic: Inject Profile + JSON
       return `javascript:(function(){
     const myProfile = \`${safeProfile}\`;
     const json = prompt("Eski sohbetten kopyaladığın JSON'ı buraya yapıştır:");
@@ -58,7 +66,6 @@ const App: React.FC = () => {
     }
 })()`.replace(/(\r\n|\n|\r)/gm, "");
     } else {
-      // V1 Logic: JSON Only
       return `javascript:(function(){
     const json = prompt("Eski sohbetten kopyaladığın JSON'ı buraya yapıştır:");
     if(json){
@@ -87,31 +94,81 @@ const App: React.FC = () => {
             <h1 className="text-xl font-bold tracking-tight text-white">Context<span className="text-indigo-400">Freeze</span></h1>
           </div>
           
-          <div className="flex gap-1 bg-slate-800/50 p-1 rounded-lg">
+          <div className="flex items-center gap-4">
+            <div className="flex gap-1 bg-slate-800/50 p-1 rounded-lg">
+              <button 
+                onClick={() => setActiveTab(Tab.BOOKMARKLETS)}
+                className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === Tab.BOOKMARKLETS ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'}`}
+              >
+                <Bookmark size={16} />
+                Kurulum
+              </button>
+              <button 
+                onClick={() => setActiveTab(Tab.MANAGER)}
+                className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === Tab.MANAGER ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'}`}
+              >
+                <LayoutDashboard size={16} />
+                Yönetici
+              </button>
+              <button 
+                onClick={() => setActiveTab(Tab.CONVERTER)}
+                className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === Tab.CONVERTER ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'}`}
+              >
+                <BrainCircuit size={16} />
+                AI Dönüştürücü
+              </button>
+            </div>
+
             <button 
-              onClick={() => setActiveTab(Tab.BOOKMARKLETS)}
-              className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === Tab.BOOKMARKLETS ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'}`}
+              onClick={() => setIsSettingsOpen(true)}
+              className={`p-2 rounded-lg transition-colors ${apiKey ? 'text-slate-400 hover:text-white hover:bg-slate-800' : 'text-amber-500 bg-amber-500/10 animate-pulse'}`}
             >
-              <Bookmark size={16} />
-              Kurulum
-            </button>
-            <button 
-              onClick={() => setActiveTab(Tab.MANAGER)}
-              className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === Tab.MANAGER ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'}`}
-            >
-              <LayoutDashboard size={16} />
-              Yönetici
-            </button>
-            <button 
-              onClick={() => setActiveTab(Tab.CONVERTER)}
-              className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === Tab.CONVERTER ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'}`}
-            >
-              <BrainCircuit size={16} />
-              AI Dönüştürücü
+              <Settings size={20} />
             </button>
           </div>
         </div>
       </nav>
+
+      {/* Settings Modal */}
+      {isSettingsOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between p-6 border-b border-slate-800">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <Settings className="text-indigo-400" /> Ayarlar
+              </h3>
+              <button onClick={() => setIsSettingsOpen(false)} className="text-slate-400 hover:text-white transition-colors">
+                <X size={24} />
+              </button>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="space-y-3">
+                <label className="text-sm font-bold text-slate-300 flex items-center gap-2">
+                  <Key size={16} className="text-indigo-400" /> Gemini API Key (Flash 3)
+                </label>
+                <input 
+                  type="password"
+                  value={apiKey}
+                  onChange={(e) => saveApiKey(e.target.value)}
+                  placeholder="AI Anahtarınızı buraya yapıştırın..."
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"
+                />
+                <p className="text-[10px] text-slate-500 leading-relaxed uppercase tracking-wider">
+                  Anahtarınız tarayıcınızda (localStorage) saklanır. Kimseyle paylaşılmaz. 
+                  Ücretsiz anahtar almak için <a href="https://aistudio.google.com/app/apikey" target="_blank" className="text-indigo-400 hover:underline inline-flex items-center gap-0.5">Google AI Studio <ExternalLink size={10} /></a> adresine gidin.
+                </p>
+              </div>
+
+              <button 
+                onClick={() => setIsSettingsOpen(false)}
+                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-indigo-500/20"
+              >
+                Kaydet ve Kapat
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <main className="flex-1 max-w-7xl mx-auto w-full p-6">
@@ -207,6 +264,7 @@ const App: React.FC = () => {
                 <li>Butonların üzerindeki "Kodu Kopyala"ya basın.</li>
                 <li>Chrome yer imleri çubuğuna sağ tıklayıp <strong>"Sayfa Ekle"</strong> deyin.</li>
                 <li>URL kısmına kopyaladığınız kodu yapıştırın.</li>
+                <li><strong>Önemli:</strong> AI Dönüştürücü için sağ üstteki <strong>Ayarlar</strong> ikonuna tıklayıp API anahtarınızı girin.</li>
                 <li><strong>Not:</strong> Profil metnini değiştirdiğinizde "Yükle" butonunun kodunu tekrar kopyalayıp güncellemeniz gerekir.</li>
               </ol>
             </div>
@@ -231,7 +289,11 @@ const App: React.FC = () => {
 
         {activeTab === Tab.CONVERTER && (
           <div className="h-full animate-in zoom-in-95 duration-300">
-            <AIConverter onConversionComplete={handleConversionComplete} />
+            <AIConverter 
+              apiKey={apiKey} 
+              onConversionComplete={handleConversionComplete} 
+              onOpenSettings={() => setIsSettingsOpen(true)}
+            />
           </div>
         )}
       </main>
